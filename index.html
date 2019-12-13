@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .unselectable {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    html,
+    body,
+    #wrapper {
+        width: 100%;
+        height: 100%;
+    }
+    
+    #container {
+        width: 960px;
+        margin: 0 auto;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=yes">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<title>
+    Mouse Benchmark
+</title>
+
+<body trackable id="track" class="bg-dark text-info unselectable">
+    <div class="p-3">
+        <p id="result" class=" text-justify display-4">
+            Clicks: 0
+        </p>
+        <p id="movementX" class=" text-justify display-4">
+            Movement X: 0 PX
+        </p>
+        <p id="movementY" class=" text-justify display-4">
+            Movement Y: 0 PX
+        </p>
+        <p id="movement" class=" text-justify display-4">
+            Movement: 0 PX
+        </p>
+        <p id="speed" class=" text-justify display-4">
+            Speed: 0 PX/S
+        </p>
+        <p id="maxSpeed" class=" text-justify display-4">
+            Max Speed: 0 PX/S
+        </p>
+        <p id="acceleration" class=" text-justify display-4">
+            Acceleration: 0 PX/S<sup>2</sup>
+        </p>
+        <p id="maxPositiveAcceleration" class=" text-justify display-4">
+            Max Positive Acceleration: 0 PX/S<sup>2</sup>
+        </p>
+        <p id="maxNegativeAcceleration" class=" text-justify display-4">
+            Max Negative Acceleration: 0 PX/S<sup>2</sup>
+        </p>
+    </div>
+    <div class="p-3">
+        <!-- <button trackable id="track" type="button" class="btn btn-success">
+        Track
+    </button> -->
+        <button trackable id="clear" type="button" class="btn btn-danger">
+            Clear
+        </button>
+    </div>
+</body>
+<script>
+    var clicks = 0
+    track = document.querySelectorAll('#track')
+    clear = document.querySelectorAll('#clear')
+    result = document.getElementById("result")
+
+    track.forEach(function(elem) {
+        elem.addEventListener("click", function() {
+            clicks++;
+            console.clear();
+            console.log(clicks);
+            result.innerHTML = "Clicks: " + clicks;
+        });
+    });
+    clear.forEach(function(elem) {
+        elem.addEventListener("click", function() {
+            console.clear();
+            clicks = -1;
+            result.innerHTML = "Clicks: " + clicks;
+        });
+    });
+</script>
+<script>
+    var prevEvent, currentEvent;
+    document.documentElement.onmousemove = function(event) {
+        currentEvent = event;
+    }
+
+    var maxSpeed = 0,
+        prevSpeed = 0,
+        maxPositiveAcc = 0,
+        maxNegativeAcc = 0,
+        twoAsSub = "2".sub();
+    setInterval(function() {
+        if (prevEvent && currentEvent) {
+            var movementX = Math.abs(currentEvent.screenX - prevEvent.screenX);
+            var movementY = Math.abs(currentEvent.screenY - prevEvent.screenY);
+            var movement = Math.sqrt(movementX * movementX + movementY * movementY);
+
+            document.getElementById("movementX").innerText = "Movement X: " + movementX;
+            document.getElementById("movementY").innerText = "Movement Y: " + movementY;
+            document.getElementById("movement").innerText = "Movement: " + Math.round(movement);
+
+            //speed=movement/100ms= movement/0.1s= 10*movement/s
+            var speed = 10 * movement; //current speed
+
+            document.getElementById("speed").innerText = "Speed: " + Math.round(speed) + " PX/S";
+            document.getElementById("maxSpeed").innerText = "Max Speed: " + Math.round(
+                speed > maxSpeed ? (maxSpeed = speed) : maxSpeed
+            ) + " PX/S";
+
+            var acceleration = 10 * (speed - prevSpeed);
+
+            document.getElementById("acceleration").innerHTML = "Acceleration: " + Math.round(
+                acceleration
+            ) + " PX/S" + twoAsSub;
+
+            if (acceleration > 0) {
+                document.getElementById("maxPositiveAcceleration").innerHTML = "Max Positive Acceleration: " + Math.round(
+                    acceleration > maxPositiveAcc ? (maxPositiveAcc = acceleration) : maxPositiveAcc
+                ) + " PX/S" + twoAsSub;
+            } else {
+                document.getElementById("maxNegativeAcceleration").innerHTML = "Max Negative Acceleration: " + Math.round(
+                    acceleration < maxNegativeAcc ? (maxNegativeAcc = acceleration) : maxNegativeAcc
+                ) + " PX/S" + twoAsSub;
+            }
+        }
+
+        prevEvent = currentEvent;
+        prevSpeed = speed;
+    }, 100);
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</html>

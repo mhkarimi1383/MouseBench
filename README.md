@@ -6,4 +6,5 @@ https://mhkarimi1383.github.io/MouseBench
 - [x] now if you click on Clear, it will clear the `Max Speed` too.
 - [x] wrong script tag fix.
 - [x] make sperate js and css files for better proformance and stability
-- [ ] clear button clear everything
+- [x] clear button clear everything
+- [ ] maxPositiveAcc can't be clear

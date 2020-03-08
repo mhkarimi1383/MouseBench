@@ -8,3 +8,4 @@ https://mhkarimi1383.github.io/MouseBench
 - [x] make sperate js and css files for better proformance and stability
 - [x] clear button clear everything
 - [ ] maxPositiveAcc can't be clear
+- [ ] save records as cookie

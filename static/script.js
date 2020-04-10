@@ -66,8 +66,8 @@
             console.clear();
             clicks = -1;
             maxSpeed = 0;
-            maxPositiveAcc = 0;
-            maxNegativeAcc = 0;
+            document.getElementById("maxPositiveAcceleration").innerHTML = "Max Positive Acceleration: " + 0 + " PX/S" + twoAsSub;
+	    maxNegativeAcc = 0;
             result.innerHTML = "Clicks: " + clicks;
         });
     });

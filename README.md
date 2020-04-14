@@ -7,5 +7,5 @@ https://mhkarimi1383.github.io/MouseBench
 - [x] wrong script tag fix.
 - [x] make sperate js and css files for better proformance and stability
 - [x] clear button clear everything
-- [ ] maxPositiveAcc can't be clear
+- [x] maxPositiveAcc can't be clear
 - [ ] save records as cookie
